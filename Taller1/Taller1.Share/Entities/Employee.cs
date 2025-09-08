@@ -24,13 +24,6 @@ public class Employee
 
     [Display(Name = "Salario")]
     [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-    public decimal Salary
-    {
-        get => Salary; set
-        {
-            if (value < 1_000_000)
-                throw new ArgumentException("El salario no puede ser menor a 1.000.000");
-            Salary = value;
-        }
-    }
+    [Range(1000000, double.MaxValue, ErrorMessage = "El campo {0} no puede ser menor a 1.000.000")]
+    public decimal Salary { get; set; }
 }
