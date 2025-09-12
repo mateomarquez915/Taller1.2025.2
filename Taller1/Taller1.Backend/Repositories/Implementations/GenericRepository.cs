@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Taller1.Backend.Data;
 using Taller1.Backend.Repositories.Interfaces;
+using Taller1.Shared.Entities;
 using Taller1.Shared.Responses;
 
 namespace Taller1.Backend.Repositories.Implementations;
@@ -78,6 +80,36 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         WasSuccess = true,
         Result = await _entity.ToListAsync(),
     };
+
+    public virtual async Task<ActionResponse<IEnumerable<T>>> SearchAsync(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return new ActionResponse<IEnumerable<T>>
+            {
+                Message = "Debe ingresar un texto de búsqueda."
+            };
+        }
+
+        var entities = await _context.Set<T>()
+            .Where(x => EF.Property<string>(x, "FirstName").Contains(query)
+                     || EF.Property<string>(x, "LastName").Contains(query))
+            .ToListAsync();
+
+        if (!entities.Any())
+        {
+            return new ActionResponse<IEnumerable<T>>
+            {
+                Message = "No se encontraron registros con ese criterio."
+            };
+        }
+
+        return new ActionResponse<IEnumerable<T>>
+        {
+            WasSuccess = true,
+            Result = entities
+        };
+    }
 
     public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
     {

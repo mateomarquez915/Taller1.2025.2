@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Taller1.Backend.UnitsOfWork.Interfaces;
 
 namespace Taller1.Backend.Controllers;
@@ -32,6 +33,19 @@ public class GenericController<T> : Controller where T : class
             return Ok(action.Result);
         }
         return NotFound();
+    }
+
+    [HttpGet("search")]
+    public async Task<IActionResult> SearchAsync([FromQuery] string query)
+    {
+        var response = await _unitOfWork.SearchAsync(query);
+
+        if (!response.WasSuccess)
+        {
+            return NotFound(response.Message);
+        }
+
+        return Ok(response.Result);
     }
 
     [HttpPost]
