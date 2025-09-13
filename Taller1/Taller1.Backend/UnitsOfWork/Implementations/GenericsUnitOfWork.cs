@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Taller1.Backend.Repositories.Implementations;
-using Taller1.Backend.Repositories.Interfaces;
+﻿using Taller1.Backend.Repositories.Interfaces;
 using Taller1.Backend.UnitsOfWork.Interfaces;
 using Taller1.Shared.Responses;
 

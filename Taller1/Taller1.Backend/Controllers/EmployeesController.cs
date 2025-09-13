@@ -1,10 +1,6 @@
-﻿using DocuSign.eSign.Model;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Taller1.Backend.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using Taller1.Backend.UnitsOfWork.Interfaces;
 using Taller1.Shared.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Taller1.Backend.Controllers;
 

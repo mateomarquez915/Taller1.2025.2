@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Taller1.Shared.Responses;
+﻿using Taller1.Shared.Responses;
 
 namespace Taller1.Backend.Repositories.Interfaces;
 

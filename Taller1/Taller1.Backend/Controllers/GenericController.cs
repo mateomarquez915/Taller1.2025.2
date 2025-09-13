@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Taller1.Backend.UnitsOfWork.Interfaces;
 
 namespace Taller1.Backend.Controllers;

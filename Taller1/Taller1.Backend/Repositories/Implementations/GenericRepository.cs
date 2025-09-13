@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Taller1.Backend.Data;
 using Taller1.Backend.Repositories.Interfaces;
-using Taller1.Shared.Entities;
 using Taller1.Shared.Responses;
 
 namespace Taller1.Backend.Repositories.Implementations;
