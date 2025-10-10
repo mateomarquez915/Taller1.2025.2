@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Taller.Shared.DTOs;
 using Taller1.Backend.UnitsOfWork.Interfaces;
 
 namespace Taller1.Backend.Controllers;
@@ -35,9 +36,9 @@ public class GenericController<T> : Controller where T : class
     }
 
     [HttpGet("search")]
-    public async Task<IActionResult> SearchAsync([FromQuery] string query)
+    public virtual async Task<IActionResult> GetAsync([FromQuery] string query)
     {
-        var response = await _unitOfWork.SearchAsync(query);
+        var response = await _unitOfWork.GetAsync(query);
 
         if (!response.WasSuccess)
         {
@@ -78,5 +79,27 @@ public class GenericController<T> : Controller where T : class
             return NoContent();
         }
         return BadRequest(action.Message);
+    }
+
+    [HttpGet("paginated")]
+    public virtual async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetAsync(pagination);
+        if (action.WasSuccess)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
+    }
+
+    [HttpGet("totalRecords")]
+    public virtual async Task<IActionResult> GetTotalRecordsAsync([FromQuery] PaginationDTO pagination)
+    {
+        var action = await _unitOfWork.GetTotalRecordsAsync(pagination);
+        if (action.WasSuccess)
+        {
+            return Ok(action.Result);
+        }
+        return BadRequest();
     }
 }

@@ -16,6 +16,8 @@ builder.Services.AddTransient<SeedDb>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IGenericUnitOfWork<>), typeof(GenericsUnitOfWork<>));
 
+builder.Services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+builder.Services.AddScoped<IEmployeesUnitOfWork, EmployeesUnitOfWork>();
 var app = builder.Build();
 
 seedData(app);

@@ -17,6 +17,10 @@ namespace Taller1.Backend.Data
             modelBuilder.Entity<Employee>()
                 .Property(x => x.Salary)
                 .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.HireDate)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

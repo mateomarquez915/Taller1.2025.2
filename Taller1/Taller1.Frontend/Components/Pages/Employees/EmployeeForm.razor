@@ -1,0 +1,43 @@
+﻿<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudTextField Label="Empleado"
+                  @bind-Value="@employee.FirstName"
+                  For="@(() => employee.FirstName)"
+                  Class="mb-4" />
+
+    <MudTextField Label="Apellido"
+                  @bind-Value="employee.LastName"
+                  For="@(() => employee.LastName)"
+                  Class="mb-4" />
+
+    <MudCheckBox Label="Activo"
+                 @bind-Checked="employee.IsActive"
+                 For="@(() => employee.IsActive)"
+                 Class="mb-4" />
+                    
+    <MudNumericField T="decimal"
+                     Label="Salario"
+                     @bind-Value="employee.Salary"
+                     For="@(() => employee.Salary)"
+                     Class="mb-4" />
+   
+    
+ 
+    <MudButton Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.ArrowBack"
+               Color="Color.Info"
+               OnClick="ReturnAction">
+        <MudHidden xs="true">
+            Cancelar
+        </MudHidden>
+    </MudButton>
+
+    <MudButton Variant="Variant.Outlined"
+               StartIcon="@Icons.Material.Filled.Check"
+               Color="Color.Primary"
+               ButtonType="ButtonType.Submit">
+        <MudHidden xs="true">
+            Guardar Cambios
+        </MudHidden>
+    </MudButton>
+</EditForm>
