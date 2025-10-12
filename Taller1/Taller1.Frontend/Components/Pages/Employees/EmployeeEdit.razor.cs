@@ -39,6 +39,9 @@ public partial class EmployeeEdit
 
     private async Task EditAsync()
     {
+        // Forzar la actualización del modelo antes de enviar
+        StateHasChanged();
+
         var responseHttp = await Repository.PutAsync($"api/employees", employee);
 
         if (responseHttp.Error)

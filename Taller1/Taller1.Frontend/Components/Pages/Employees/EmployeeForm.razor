@@ -1,6 +1,6 @@
 ﻿<EditForm EditContext="editContext" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
-    <MudTextField Label="Nombre"
+    <MudTextField Label="Empleado"
                   @bind-Value="@employee.FirstName"
                   For="@(() => employee.FirstName)"
                   Class="mb-4" />
@@ -10,11 +10,12 @@
                   For="@(() => employee.LastName)"
                   Class="mb-4" />
 
-    <MudCheckBox Label="Activo"
-                 @bind-Checked="employee.IsActive"
-                 For="@(() => employee.IsActive)"
-                 Class="mb-4" />
-                    
+    <MudSwitch T="bool"
+               @bind-Value="employee.IsActive"
+               Label="¿Está activo?"
+               Color="Color.Primary"
+               Class="mb-4" />
+
     <MudNumericField T="decimal"
                      Label="Salario"
                      @bind-Value="employee.Salary"

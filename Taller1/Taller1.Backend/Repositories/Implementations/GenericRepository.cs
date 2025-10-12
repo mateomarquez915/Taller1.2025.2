@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Taller.Backend.Helpers;
 using Taller.Shared.DTOs;
 using Taller1.Backend.Data;
 using Taller1.Backend.Repositories.Interfaces;
-using Taller1.Shared.Entities;
 using Taller1.Shared.Responses;
 
 namespace Taller1.Backend.Repositories.Implementations;
@@ -139,7 +137,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
 
     public virtual async Task<ActionResponse<T>> UpdateAsync(T entity)
     {
-        _context.Update(entity);
+        _entity.Update(entity);
         try
         {
             await _context.SaveChangesAsync();

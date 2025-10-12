@@ -107,7 +107,6 @@ public partial class EmployeeIndex
         {
             dialog = await DialogService.ShowAsync<EmployeeCreate>("Nuevo Empleado", options);
         }
-
         var result = await dialog.Result;
         if (result!.Canceled!)
         {
