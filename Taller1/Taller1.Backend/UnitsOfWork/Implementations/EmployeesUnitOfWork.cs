@@ -7,7 +7,7 @@ using Taller1.Shared.Responses;
 
 namespace Taller1.Backend.UnitsOfWork.Implementations;
 
-public class EmployeesUnitOfWork : GenericsUnitOfWork<Employee>, IEmployeesUnitOfWork
+public class EmployeesUnitOfWork : GenericUnitOfWork<Employee>, IEmployeesUnitOfWork
 {
     private readonly IEmployeesRepository _employeesRepository;
 

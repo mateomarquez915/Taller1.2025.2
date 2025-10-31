@@ -96,7 +96,7 @@ public class EmployeesRepository : GenericRepository<Employee>, IEmployeesReposi
 
     public override async Task<ActionResponse<Employee>> AddAsync(Employee entity)
     {
-        if (entity.HireDate == default) // significa 01/01/0001
+        if (entity.HireDate == default)
         {
             entity.HireDate = DateTime.Now;
         }
