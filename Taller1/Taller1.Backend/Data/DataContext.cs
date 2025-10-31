@@ -22,8 +22,9 @@ namespace Taller1.Backend.Data
             modelBuilder.Entity<City>().HasIndex(x => new { x.StateId, x.Name }).IsUnique();
             modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<State>().HasIndex(x => new { x.CountryId, x.Name }).IsUnique();
+
             disableCascadingDelete(modelBuilder);
-            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Employee>()
                 .Property(x => x.Salary)
                 .HasColumnType("decimal(18,2)");

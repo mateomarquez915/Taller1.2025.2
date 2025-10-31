@@ -71,15 +71,25 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         {
             return new ActionResponse<T>
             {
-                Message = "El registro no fue encontrado.",
+                Message = "Registro no necontrado."
             };
         }
         _entity.Remove(row);
-        await _context.SaveChangesAsync();
-        return new ActionResponse<T>
+        try
         {
-            WasSuccess = true,
-        };
+            await _context.SaveChangesAsync();
+            return new ActionResponse<T>
+            {
+                WasSuccess = true,
+            };
+        }
+        catch (DbUpdateException)
+        {
+            return new ActionResponse<T>
+            {
+                Message = "No se puede borrar porque tiene registros relacionados."
+            };
+        }
     }
 
     public virtual async Task<ActionResponse<T>> GetAsync(int id)
