@@ -1,4 +1,5 @@
 using DocuSign.eSign.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using System.Net;
@@ -8,6 +9,7 @@ using Taller1.Shared.Entities;
 
 namespace Taller1.Frontend.Components.Pages.Employees;
 
+[Authorize(Roles = "Admin")]
 public partial class EmployeeIndex
 {
     private List<Employee>? Employees { get; set; }
