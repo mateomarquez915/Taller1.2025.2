@@ -1,10 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Taller1.Shared.DTOs;
 using Taller1.Shared.Entities;
 
 namespace Taller1.Backend.UnitsOfWork.Interfaces;
 
 public interface IUsersUnitOfWork
 {
+    Task<SignInResult> LoginAsync(LoginDTO model);
+
+    Task LogoutAsync();
+
     Task<User> GetUserAsync(string email);
 
     Task<IdentityResult> AddUserAsync(User user, string password);
