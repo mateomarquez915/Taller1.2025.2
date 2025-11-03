@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DocuSign.eSign.dll" Version="8.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.21" />
   </ItemGroup>
 
 </Project>
