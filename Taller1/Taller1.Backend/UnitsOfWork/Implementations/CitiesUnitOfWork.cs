@@ -7,7 +7,10 @@ using Taller1.Shared.Responses;
 namespace Taller1.Backend.UnitsOfWork.Implementations;
 
 public class CitiesUnitOfWork : GenericUnitOfWork<City>, ICitiesUnitOfWork
+
 {
+    public async Task<IEnumerable<City>> GetComboAsync(int stateId) => await _citiesRepository.GetComboAsync(stateId);
+
     private readonly ICitiesRepository _citiesRepository;
 
     public CitiesUnitOfWork(IGenericRepository<City> repository, ICitiesRepository citiesRepository) : base(repository)

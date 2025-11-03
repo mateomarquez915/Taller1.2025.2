@@ -9,6 +9,8 @@ namespace Taller1.Backend.UnitsOfWork.Implementations;
 public class CountriesUnitOfWork : GenericUnitOfWork<Country>, ICountriesUnitOfWork
 
 {
+    public async Task<IEnumerable<Country>> GetComboAsync() => await _countriesRepository.GetComboAsync();
+
     private readonly ICountriesRepository _countriesRepository;
 
     public CountriesUnitOfWork(IGenericRepository<Country> repository, ICountriesRepository countriesRepository) : base(repository)
