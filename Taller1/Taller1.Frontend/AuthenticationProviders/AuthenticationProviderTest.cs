@@ -11,9 +11,9 @@ public class AuthenticationProviderTest : AuthenticationStateProvider
         var user = new ClaimsIdentity(authenticationType: "test");
         var admin = new ClaimsIdentity(
         [
-        new("FirstName", "Juan"),
-        new("LastName", "Zulu"),
-        new(ClaimTypes.Name, "zulu@yopmail.com"),
+        new("FirstName", "Mateo"),
+        new("LastName", "Marquez"),
+        new(ClaimTypes.Name, "MateoMarquez@yopmail.com"),
         new(ClaimTypes.Role, "Admin")
 
         ],
