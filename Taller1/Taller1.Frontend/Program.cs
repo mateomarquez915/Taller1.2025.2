@@ -3,6 +3,7 @@ using MudBlazor.Services;
 using Taller1.Frontend.AuthenticationProviders;
 using Taller1.Frontend.Components;
 using Taller1.Frontend.Repositories;
+using Taller1.Frontend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,12 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddSingleton(_ => new HttpClient { BaseAddress = new Uri("https://localhost:7289") });
 builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderTest>();
+
 builder.Services.AddScoped<IRepository, Repository>();
+
+builder.Services.AddScoped<AuthenticationProviderJWT>();
+builder.Services.AddScoped<AuthenticationStateProvider, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
+builder.Services.AddScoped<ILoginService, AuthenticationProviderJWT>(x => x.GetRequiredService<AuthenticationProviderJWT>());
 
 var app = builder.Build();
 
