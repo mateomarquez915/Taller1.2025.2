@@ -6,7 +6,6 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 using Taller1.Backend.Data;
-using Taller1.Backend.Helpers;
 using Taller1.Backend.Repositories.Implementations;
 using Taller1.Backend.Repositories.Interfaces;
 using Taller1.Backend.UnitsOfWork.Implementations;
@@ -52,8 +51,6 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer("name=LocalConnection"));
 builder.Services.AddTransient<SeedDb>();
-builder.Services.AddScoped<IFileStorage, FileStorage>();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(x => x.TokenValidationParameters = new TokenValidationParameters
     {
