@@ -9,7 +9,6 @@ using Taller1.Shared.Entities;
 
 namespace Taller1.Frontend.Components.Pages.Employees;
 
-[Authorize(Roles = "Admin")]
 public partial class EmployeeIndex
 {
     private List<Employee>? Employees { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.JSInterop;
+using System.Text;
 using System.Text.Json;
 
 namespace Taller1.Frontend.Repositories;
@@ -6,15 +7,17 @@ namespace Taller1.Frontend.Repositories;
 public class Repository : IRepository
 {
     private readonly HttpClient _httpClient;
+    private readonly IJSRuntime _jsRuntime;
 
     private JsonSerializerOptions _jsonDefaultOptions => new JsonSerializerOptions
     {
         PropertyNameCaseInsensitive = true,
     };
 
-    public Repository(HttpClient httpClient)
+    public Repository(HttpClient httpClient, IJSRuntime jsRuntime)
     {
         _httpClient = httpClient;
+        _jsRuntime = jsRuntime;
     }
 
     public async Task<HttpResponseWrapper<T>> GetAsync<T>(string url)

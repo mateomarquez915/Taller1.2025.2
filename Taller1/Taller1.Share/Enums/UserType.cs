@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace Taller1.Shared.Enums;
 
 public enum UserType
 {
     [Description("Administrador")]
-    Admin,
+    Admin = 0,
 
     [Description("Usuario")]
-    User
+    User = 1
 }

@@ -1,13 +1,27 @@
 ﻿
 <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Inicio</MudNavLink>
-       <AuthorizeView Roles="Admin">
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">
+        Inicio
+    </MudNavLink>
+
+    <!-- Empleados - Accesible para Admin Y User -->
+    <AuthorizeView Roles="Admin,User">
         <Authorized>
-             <MudNavLink Href="employees" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person">Empleados</MudNavLink>
-             <MudNavLink Href="countries" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Public">Países</MudNavLink>
+            <MudNavLink Href="employees" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">
+                Empleados
+            </MudNavLink>
         </Authorized>
     </AuthorizeView>
 
+    <!-- Sección solo para Admin -->
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+           
+                <MudNavLink Href="countries" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Public">
+                    Países
+                </MudNavLink>
+              
+            
+        </Authorized>
+    </AuthorizeView>
 </MudNavMenu>
-
-

@@ -13,6 +13,9 @@ public partial class Logout
     private async Task LogoutActionAsync()
     {
         await LoginService.LogoutAsync();
+        MudDialog.Close();
+
+        NavigationManager.NavigateTo("/", forceLoad: true);
         CancelAction();
     }
 

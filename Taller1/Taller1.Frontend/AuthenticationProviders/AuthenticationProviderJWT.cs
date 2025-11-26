@@ -13,36 +13,46 @@ namespace Taller1.Frontend.AuthenticationProviders
         private readonly IJSRuntime _jSRuntime;
         private readonly HttpClient _httpClient;
         private readonly string _tokenKey;
-        private readonly AuthenticationState _anonimous;
+        private readonly AuthenticationState _anonymous;
 
         public AuthenticationProviderJWT(IJSRuntime jSRuntime, HttpClient httpClient)
         {
             _jSRuntime = jSRuntime;
             _httpClient = httpClient;
             _tokenKey = "TOKEN_KEY";
-            _anonimous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            _anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             try
             {
-                var token = await _jSRuntime.GetLocalStorage(_tokenKey);
-                if (token is null)
+                var tokenObj = await _jSRuntime.GetLocalStorage(_tokenKey);
+
+                if (tokenObj == null)
                 {
-                    return _anonimous;
+                    return _anonymous;
                 }
-                return BuildAuthenticationState(token.ToString()!);
+
+                var token = tokenObj.ToString();
+
+                if (string.IsNullOrEmpty(token))
+                {
+                    return _anonymous;
+                }
+
+                return BuildAuthenticationState(token);
             }
-            catch (InvalidOperationException)
+            catch (Exception ex)
             {
-                return _anonimous;
+                return _anonymous;
             }
         }
 
         public async Task LoginAsync(string token)
         {
             await _jSRuntime.SetLocalStorage(_tokenKey, token);
+
             var authState = BuildAuthenticationState(token);
             NotifyAuthenticationStateChanged(Task.FromResult(authState));
         }
@@ -51,13 +61,15 @@ namespace Taller1.Frontend.AuthenticationProviders
         {
             await _jSRuntime.RemoveLocalStorage(_tokenKey);
             _httpClient.DefaultRequestHeaders.Authorization = null;
-            NotifyAuthenticationStateChanged(Task.FromResult(_anonimous));
+            NotifyAuthenticationStateChanged(Task.FromResult(_anonymous));
         }
 
         private AuthenticationState BuildAuthenticationState(string token)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             var claims = ParseClaimsFromJWT(token);
+
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt")));
         }
 

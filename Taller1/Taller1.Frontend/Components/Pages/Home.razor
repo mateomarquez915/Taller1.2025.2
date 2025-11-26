@@ -2,15 +2,35 @@
 
 <PageTitle>Inicio</PageTitle>
 
-<AuthorizeView Roles="Admin">
-    <Authorized>
-        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">Hola @context.User.Identity?.Name</MudText>
+<AuthorizeView>
+    <Authorized Context="outerContext">
+        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">
+            👋 Hola, @outerContext.User.Identity!.Name
+        </MudText>
+
+        @{
+            var userRole = outerContext.User.Claims
+            .FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value ?? "Usuario";
+        }
+
+        <MudText Typo="Typo.body1" Class="m-2">
+            <strong>Rol:</strong> @userRole
+        </MudText>
+
+       
     </Authorized>
+
     <NotAuthorized>
-        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">Eres usuario anónimo</MudText>
+        <MudText Typo="Typo.h3" Class="m-2" GutterBottom="true">
+            Bienvenido al Sistema de Pedidos
+        </MudText>
+        <MudText Typo="Typo.body1" Class="m-2">
+            Para acceder al sistema, debes iniciar sesión o registrarte.
+        </MudText>
+        
     </NotAuthorized>
 </AuthorizeView>
 
-
-
-<MudText Class="m-2">Taller sistema de pedidos ejemplo para el curso de Servicios WEB 2025-II</MudText>
+<MudText Typo="Typo.caption" Class="m-2 mt-4">
+    Taller sistema de pedidos ejemplo para el curso de Servicios WEB 2025-II
+</MudText>

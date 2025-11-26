@@ -1,4 +1,6 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using MudBlazor;
 using Taller1.Frontend.Repositories;
 using Taller1.Frontend.Services;
@@ -27,6 +29,9 @@ public partial class Register
     [Inject] private IDialogService DialogService { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
     [Inject] private IRepository Repository { get; set; } = null!;
+    [Inject] private IJSRuntime JSRuntime { get; set; } = null!;
+    [Inject] private AuthenticationStateProvider AuthStateProvider { get; set; } = null!;
+
     [Parameter, SupplyParameterFromQuery] public bool IsAdmin { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -163,25 +168,46 @@ public partial class Register
             return;
         }
 
-        userDTO.UserType = UserType.User;
+        userDTO.UserType = IsAdmin ? UserType.Admin : UserType.User;
         userDTO.UserName = userDTO.Email;
 
-        if (IsAdmin)
-        {
-            userDTO.UserType = UserType.Admin;
-        }
-
         loading = true;
-        var responseHttp = await Repository.PostAsync<UserDTO, TokenDTO>("/api/accounts/CreateUser", userDTO);
-        loading = false;
-        if (responseHttp.Error)
-        {
-            var message = await responseHttp.GetErrorMessageAsync();
-            Snackbar.Add(message!, Severity.Error);
-            return;
-        }
 
-        await LoginService.LoginAsync(responseHttp.Response!.Token);
-        NavigationManager.NavigateTo("/");
+        try
+        {
+            var responseHttp = await Repository.PostAsync<UserDTO, TokenDTO>("/api/accounts/CreateUser", userDTO);
+
+            if (responseHttp.Error)
+            {
+                loading = false;
+                var message = await responseHttp.GetErrorMessageAsync();
+                Snackbar.Add(message!, Severity.Error);
+                return;
+            }
+
+            var token = responseHttp.Response!.Token;
+
+            if (string.IsNullOrEmpty(token))
+            {
+                loading = false;
+                Snackbar.Add("Error: No se recibió el token de autenticación", Severity.Error);
+                return;
+            }
+
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "TOKEN_KEY", token);
+
+            await LoginService.LoginAsync(token);
+
+            loading = false;
+
+            Snackbar.Add("Usuario creado y sesión iniciada exitosamente", Severity.Success);
+
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            loading = false;
+            Snackbar.Add($"Error inesperado: {ex.Message}", Severity.Error);
+        }
     }
 }

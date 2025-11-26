@@ -32,14 +32,11 @@ public partial class ChangePassword
                 {
                     try
                     {
-                        // Extraer el mensaje del JSON
                         if (message.Contains("\"errors\":{"))
                         {
-                            // Buscar el primer mensaje de error dentro de "errors"
                             var errorsStart = message.IndexOf("\"errors\":{") + 10;
                             var errorsSection = message.Substring(errorsStart);
 
-                            // Encontrar el primer array de mensajes ["mensaje"]
                             var msgStart = errorsSection.IndexOf("[\"") + 2;
                             var msgEnd = errorsSection.IndexOf("\"]", msgStart);
 
@@ -58,6 +55,9 @@ public partial class ChangePassword
                 Snackbar.Add(cleanMessage, Severity.Error);
                 return;
             }
+            MudDialog.Close();
+            Snackbar.Add("Contraseña modificada con éxito.", Severity.Success);
+            NavigationManager.NavigateTo("/EditUser");
         }
     }
 
